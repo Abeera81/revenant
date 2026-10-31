@@ -6,6 +6,7 @@
 
 - The pre-registered abstention rule cannot fire inside the backtest, because the sampling frame already requires at least 5 versions and 2 years of age at cutoff. Abstention counts will therefore be reported from the live lockfile run only, and the write-up must state that the backtest frame excludes abstainable packages by construction.
 - The classification threshold will be chosen by maximising Youden's J on the training split only. This rule was fixed before any model was fitted.
+- Collection N was fixed by a wall-clock budget, not a row target: the sample is every name fetched within 100 minutes of starting the full run, beginning from the existing 20,000. Because the sample is a prefix of a permutation seeded at 20261031, any stopping point is still a uniform random sample. This rule was fixed before any label was computed and before the base rate was known. Target was ~140,000 names at concurrency 24; the actual N is whatever the cache holds at the cutoff.
 
 ## Stage: collector (src/collect.py)
 
