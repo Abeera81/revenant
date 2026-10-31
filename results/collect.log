@@ -1,0 +1,117 @@
+2026-10-31 09:42:23,610 start: seed=20261031 n=1000 concurrency=8
+2026-10-31 09:42:23,611 enumerating names from https://replicate.npmjs.com/_all_docs (startkey pagination, limit=10000)
+2026-10-31 09:42:24,558 enumerate HTTP 400, retrying
+2026-10-31 09:42:25,880 enumerate HTTP 400, retrying
+2026-10-31 09:42:28,190 enumerate HTTP 400, retrying
+2026-10-31 09:42:32,513 enumerate HTTP 400, retrying
+2026-10-31 09:42:40,860 enumerate HTTP 400, retrying
+2026-10-31 09:42:57,215 enumerate HTTP 400, retrying
+2026-10-31 09:43:50,541 start: seed=20261031 n=1000 concurrency=8
+2026-10-31 09:43:50,541 enumerating names from https://replicate.npmjs.com/_all_docs (startkey pagination, limit=10000)
+2026-10-31 09:45:04,001 enumerated 500000 / ~4552042
+2026-10-31 09:46:14,220 enumerated 1000000 / ~4552042
+2026-10-31 09:47:03,746 enumerated 1500000 / ~4552044
+2026-10-31 09:47:56,090 enumerated 2000000 / ~4552044
+2026-10-31 09:48:49,578 enumerated 2500000 / ~4552045
+2026-10-31 09:49:39,349 enumerated 3000000 / ~4552047
+2026-10-31 09:50:30,327 enumerated 3500000 / ~4552048
+2026-10-31 09:51:24,061 enumerated 4000000 / ~4552050
+2026-10-31 09:52:11,606 enumerated 4500000 / ~4552052
+2026-10-31 09:52:21,202 enumerated 4552046 names (registry total_rows=4552052)
+2026-10-31 09:52:21,476 name list: 4552046 names, sha256[:16]=de33bcd6a5d85014
+2026-10-31 09:52:21,879 sampled=1000 already_cached=0 to_fetch=1000
+2026-10-31 09:52:40,471 progress 250/1000  ok=249 not_found=1 error=0
+2026-10-31 09:53:02,297 progress 500/1000  ok=499 not_found=1 error=0
+2026-10-31 09:53:38,031 progress 750/1000  ok=748 not_found=2 error=0
+2026-10-31 09:53:59,948 progress 1000/1000  ok=998 not_found=2 error=0
+2026-10-31 09:53:59,954 this run fetched: {'ok': 998, 'not_found': 2, 'error': 0}
+2026-10-31 09:53:59,954 sample state: sampled=1000 ok=998 not_found=2 error=0 unfetched=0
+2026-10-31 09:53:59,954 cache rows: total=1000 ok=998
+2026-10-31 09:54:19,158 start: seed=20261031 n=20000 concurrency=8
+2026-10-31 09:54:19,906 name list: 4552046 names, sha256[:16]=de33bcd6a5d85014
+2026-10-31 09:54:20,081 sampled=20000 already_cached=1000 to_fetch=19000
+2026-10-31 09:54:47,466 progress 250/19000  ok=250 not_found=0 error=0
+2026-10-31 09:55:09,358 progress 500/19000  ok=498 not_found=2 error=0
+2026-10-31 09:55:29,040 progress 750/19000  ok=747 not_found=3 error=0
+2026-10-31 09:55:53,288 progress 1000/19000  ok=997 not_found=3 error=0
+2026-10-31 09:56:11,476 progress 1250/19000  ok=1247 not_found=3 error=0
+2026-10-31 09:56:29,747 progress 1500/19000  ok=1497 not_found=3 error=0
+2026-10-31 09:56:53,765 progress 1750/19000  ok=1743 not_found=7 error=0
+2026-10-31 09:57:12,715 progress 2000/19000  ok=1992 not_found=8 error=0
+2026-10-31 09:57:31,576 progress 2250/19000  ok=2242 not_found=8 error=0
+2026-10-31 09:57:49,932 progress 2500/19000  ok=2492 not_found=8 error=0
+2026-10-31 09:58:11,381 progress 2750/19000  ok=2741 not_found=9 error=0
+2026-10-31 09:58:30,775 progress 3000/19000  ok=2991 not_found=9 error=0
+2026-10-31 09:58:50,833 progress 3250/19000  ok=3241 not_found=9 error=0
+2026-10-31 09:59:16,421 progress 3500/19000  ok=3491 not_found=9 error=0
+2026-10-31 09:59:36,994 progress 3750/19000  ok=3741 not_found=9 error=0
+2026-10-31 09:59:55,921 progress 4000/19000  ok=3991 not_found=9 error=0
+2026-10-31 10:00:16,678 progress 4250/19000  ok=4240 not_found=10 error=0
+2026-10-31 10:00:35,748 progress 4500/19000  ok=4490 not_found=10 error=0
+2026-10-31 10:00:57,394 progress 4750/19000  ok=4739 not_found=11 error=0
+2026-10-31 10:01:17,676 progress 5000/19000  ok=4986 not_found=14 error=0
+2026-10-31 10:01:37,850 progress 5250/19000  ok=5236 not_found=14 error=0
+2026-10-31 10:01:56,492 progress 5500/19000  ok=5486 not_found=14 error=0
+2026-10-31 10:02:19,050 progress 5750/19000  ok=5736 not_found=14 error=0
+2026-10-31 10:02:39,237 progress 6000/19000  ok=5986 not_found=14 error=0
+2026-10-31 10:03:00,068 progress 6250/19000  ok=6235 not_found=15 error=0
+2026-10-31 10:03:20,490 progress 6500/19000  ok=6483 not_found=17 error=0
+2026-10-31 10:03:41,012 progress 6750/19000  ok=6733 not_found=17 error=0
+2026-10-31 10:04:00,838 progress 7000/19000  ok=6983 not_found=17 error=0
+2026-10-31 10:04:22,127 progress 7250/19000  ok=7233 not_found=17 error=0
+2026-10-31 10:04:41,896 progress 7500/19000  ok=7483 not_found=17 error=0
+2026-10-31 10:05:00,639 progress 7750/19000  ok=7731 not_found=19 error=0
+2026-10-31 10:05:22,034 progress 8000/19000  ok=7980 not_found=20 error=0
+2026-10-31 10:05:41,003 progress 8250/19000  ok=8229 not_found=21 error=0
+2026-10-31 10:06:01,381 progress 8500/19000  ok=8478 not_found=22 error=0
+2026-10-31 10:06:22,260 progress 8750/19000  ok=8727 not_found=23 error=0
+2026-10-31 10:06:43,891 progress 9000/19000  ok=8977 not_found=23 error=0
+2026-10-31 10:07:04,986 progress 9250/19000  ok=9226 not_found=24 error=0
+2026-10-31 10:07:26,023 progress 9500/19000  ok=9476 not_found=24 error=0
+2026-10-31 10:07:45,594 progress 9750/19000  ok=9726 not_found=24 error=0
+2026-10-31 10:08:05,159 progress 10000/19000  ok=9976 not_found=24 error=0
+2026-10-31 10:08:25,277 progress 10250/19000  ok=10223 not_found=27 error=0
+2026-10-31 10:08:45,292 progress 10500/19000  ok=10472 not_found=28 error=0
+2026-10-31 10:09:05,845 progress 10750/19000  ok=10721 not_found=29 error=0
+2026-10-31 10:09:26,238 progress 11000/19000  ok=10971 not_found=29 error=0
+2026-10-31 10:09:45,572 progress 11250/19000  ok=11221 not_found=29 error=0
+2026-10-31 10:10:07,267 progress 11500/19000  ok=11471 not_found=29 error=0
+2026-10-31 10:10:27,522 progress 11750/19000  ok=11720 not_found=30 error=0
+2026-10-31 10:10:47,161 progress 12000/19000  ok=11970 not_found=30 error=0
+2026-10-31 10:11:06,802 progress 12250/19000  ok=12220 not_found=30 error=0
+2026-10-31 10:11:26,410 progress 12500/19000  ok=12469 not_found=31 error=0
+2026-10-31 10:11:45,212 progress 12750/19000  ok=12719 not_found=31 error=0
+2026-10-31 10:12:04,505 progress 13000/19000  ok=12969 not_found=31 error=0
+2026-10-31 10:12:32,925 progress 13250/19000  ok=13219 not_found=31 error=0
+2026-10-31 10:12:53,552 progress 13500/19000  ok=13468 not_found=32 error=0
+2026-10-31 10:13:12,760 progress 13750/19000  ok=13718 not_found=32 error=0
+2026-10-31 10:13:36,524 progress 14000/19000  ok=13968 not_found=32 error=0
+2026-10-31 10:13:56,304 progress 14250/19000  ok=14218 not_found=32 error=0
+2026-10-31 10:14:18,860 progress 14500/19000  ok=14468 not_found=32 error=0
+2026-10-31 10:14:41,122 progress 14750/19000  ok=14718 not_found=32 error=0
+2026-10-31 10:15:01,029 progress 15000/19000  ok=14967 not_found=33 error=0
+2026-10-31 10:15:20,290 progress 15250/19000  ok=15217 not_found=33 error=0
+2026-10-31 10:15:38,779 progress 15500/19000  ok=15467 not_found=33 error=0
+2026-10-31 10:15:58,008 progress 15750/19000  ok=15717 not_found=33 error=0
+2026-10-31 10:16:19,409 progress 16000/19000  ok=15967 not_found=33 error=0
+2026-10-31 10:16:43,574 progress 16250/19000  ok=16216 not_found=34 error=0
+2026-10-31 10:17:06,247 progress 16500/19000  ok=16466 not_found=34 error=0
+2026-10-31 10:17:25,525 progress 16750/19000  ok=16716 not_found=34 error=0
+2026-10-31 10:17:46,760 progress 17000/19000  ok=16966 not_found=34 error=0
+2026-10-31 10:18:05,488 progress 17250/19000  ok=17216 not_found=34 error=0
+2026-10-31 10:18:24,540 progress 17500/19000  ok=17466 not_found=34 error=0
+2026-10-31 10:18:43,701 progress 17750/19000  ok=17716 not_found=34 error=0
+2026-10-31 10:19:03,637 progress 18000/19000  ok=17966 not_found=34 error=0
+2026-10-31 10:19:21,622 progress 18250/19000  ok=18215 not_found=35 error=0
+2026-10-31 10:19:41,240 progress 18500/19000  ok=18465 not_found=35 error=0
+2026-10-31 10:20:01,944 progress 18750/19000  ok=18714 not_found=36 error=0
+2026-10-31 10:20:20,616 progress 19000/19000  ok=18964 not_found=36 error=0
+2026-10-31 10:20:20,695 this run fetched: {'ok': 18964, 'not_found': 36, 'error': 0}
+2026-10-31 10:20:20,695 sample state: sampled=20000 ok=19962 not_found=38 error=0 unfetched=0
+2026-10-31 10:20:20,695 cache rows: total=20000 ok=19962
+2026-10-31 10:20:27,046 start: seed=20261031 n=20000 concurrency=8
+2026-10-31 10:20:27,675 name list: 4552046 names, sha256[:16]=de33bcd6a5d85014
+2026-10-31 10:20:27,870 sampled=20000 already_cached=20000 to_fetch=0
+2026-10-31 10:20:28,152 this run fetched: {'ok': 0, 'not_found': 0, 'error': 0}
+2026-10-31 10:20:28,152 sample state: sampled=20000 ok=19962 not_found=38 error=0 unfetched=0
+2026-10-31 10:20:28,152 cache rows: total=20000 ok=19962
