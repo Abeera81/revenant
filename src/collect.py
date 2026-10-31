@@ -35,6 +35,7 @@ DONE_STATUSES = ("ok", "not_found")
 UA = "revenant-backtest/0.1 (research; https://github.com/Abeera81/revenant)"
 
 log = logging.getLogger("collect")
+STATS = {"http_429": 0, "http_5xx": 0, "transport_errors": 0, "retry_waits": 0}
 
 
 def setup_logging():
@@ -121,6 +122,8 @@ async def fetch_one(client: httpx.AsyncClient, name: str) -> dict:
         try:
             r = await client.get(url)
         except httpx.HTTPError as e:
+            STATS["transport_errors"] += 1
+            STATS["retry_waits"] += 1
             wait = min(60, 2 ** attempt) + random.random()
             log.info("retry %s: %s (attempt %d, wait %.1fs)", name, type(e).__name__, attempt + 1, wait)
             await asyncio.sleep(wait)
@@ -138,6 +141,8 @@ async def fetch_one(client: httpx.AsyncClient, name: str) -> dict:
             row["status"] = "not_found"
             return row
         if r.status_code == 429 or r.status_code >= 500:
+            STATS["http_429" if r.status_code == 429 else "http_5xx"] += 1
+            STATS["retry_waits"] += 1
             ra = r.headers.get("retry-after")
             wait = (float(ra) if ra and ra.isdigit() else min(60, 2 ** attempt)) + random.random()
             log.info("retry %s: HTTP %s (attempt %d, wait %.1fs)", name, r.status_code, attempt + 1, wait)
@@ -147,7 +152,7 @@ async def fetch_one(client: httpx.AsyncClient, name: str) -> dict:
     return row
 
 
-async def run(todo: list[str], concurrency: int, db: sqlite3.Connection) -> dict:
+async def run(todo: list[str], concurrency: int, db: sqlite3.Connection, deadline: float | None) -> dict:
     counts = {"ok": 0, "not_found": 0, "error": 0}
     queue: asyncio.Queue = asyncio.Queue()
     for n in todo:
@@ -157,7 +162,9 @@ async def run(todo: list[str], concurrency: int, db: sqlite3.Connection) -> dict
     timeout = httpx.Timeout(90, connect=20)
 
     async def worker(client):
-        while True:
+        # Names are taken in permutation order, so the cached set stays a prefix
+        # (minus at most `concurrency` in-flight names) when the deadline hits.
+        while deadline is None or time.monotonic() < deadline:
             try:
                 name = queue.get_nowait()
             except asyncio.QueueEmpty:
@@ -165,9 +172,14 @@ async def run(todo: list[str], concurrency: int, db: sqlite3.Connection) -> dict
             await results.put(await fetch_one(client, name))
 
     async with httpx.AsyncClient(limits=limits, timeout=timeout, headers={"User-Agent": UA}) as client:
-        workers = [asyncio.create_task(worker(client)) for _ in range(concurrency)]
-        for i in range(1, len(todo) + 1):
-            row = await results.get()
+        pool = asyncio.gather(*[asyncio.create_task(worker(client)) for _ in range(concurrency)])
+        i = 0
+        while not (pool.done() and results.empty()):
+            try:
+                row = await asyncio.wait_for(results.get(), timeout=1)
+            except asyncio.TimeoutError:
+                continue
+            i += 1
             counts[row["status"]] += 1
             db.execute(
                 "INSERT OR REPLACE INTO packages VALUES (?,?,?,?,?,?,?)",
@@ -177,10 +189,11 @@ async def run(todo: list[str], concurrency: int, db: sqlite3.Connection) -> dict
             )
             if i % 100 == 0:
                 db.commit()
-            if i % 250 == 0 or i == len(todo):
-                log.info("progress %d/%d  ok=%d not_found=%d error=%d",
-                         i, len(todo), counts["ok"], counts["not_found"], counts["error"])
-        await asyncio.gather(*workers)
+            if i % 1000 == 0:
+                log.info("progress %d/%d  ok=%d not_found=%d error=%d 429=%d 5xx=%d",
+                         i, len(todo), counts["ok"], counts["not_found"], counts["error"],
+                         STATS["http_429"], STATS["http_5xx"])
+        await pool
     db.commit()
     return counts
 
@@ -188,10 +201,12 @@ async def run(todo: list[str], concurrency: int, db: sqlite3.Connection) -> dict
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, required=True, help="sample size (prefix of the seeded permutation)")
-    ap.add_argument("--concurrency", type=int, default=8)
+    ap.add_argument("--concurrency", type=int, default=24)
+    ap.add_argument("--max-minutes", type=float, default=None, help="stop taking new names after this wall-clock budget")
     args = ap.parse_args()
     setup_logging()
-    log.info("start: seed=%d n=%d concurrency=%d", SEED, args.n, args.concurrency)
+    log.info("start: seed=%d n=%d concurrency=%d max_minutes=%s", SEED, args.n, args.concurrency, args.max_minutes)
+    deadline = time.monotonic() + args.max_minutes * 60 if args.max_minutes else None
 
     names = enumerate_names()
     sha = hashlib.sha256("\n".join(names).encode()).hexdigest()[:16]
@@ -203,7 +218,8 @@ def main():
     todo = [n for n in sample if n not in done]
     log.info("sampled=%d already_cached=%d to_fetch=%d", len(sample), len(sample) - len(todo), len(todo))
 
-    counts = asyncio.run(run(todo, args.concurrency, db))
+    counts = asyncio.run(run(todo, args.concurrency, db, deadline))
+    log.info("retry stats: %s", STATS)
 
     sample_status = {"ok": 0, "not_found": 0, "error": 0}
     for i in range(0, len(sample), 500):

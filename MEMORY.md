@@ -8,6 +8,18 @@
 - The classification threshold will be chosen by maximising Youden's J on the training split only. This rule was fixed before any model was fitted.
 - Collection N was fixed by a wall-clock budget, not a row target: the sample is every name fetched within 100 minutes of starting the full run, beginning from the existing 20,000. Because the sample is a prefix of a permutation seeded at 20261031, any stopping point is still a uniform random sample. This rule was fixed before any label was computed and before the base rate was known. Target was ~140,000 names at concurrency 24; the actual N is whatever the cache holds at the cutoff.
 
+## Stage: full collection (budget run)
+
+Code change: `src/collect.py` now defaults to concurrency 24, takes `--max-minutes` (workers stop taking new names after the deadline; in-flight names finish) and logs 429/5xx/transport counters. Command run: `python src/collect.py --n 140000 --concurrency 24 --max-minutes 100`, started 11:22:45 on 2026-10-31.
+
+Real results: all 120,000 remaining names finished in about 63 minutes, so the 100-minute cutoff never fired and N is exactly 140,000. Final cache: 140,000 rows; ok 139,726; not_found (404) 274; error 0. HTTP 429: 0. HTTP 5xx: 0. Transport errors (ConnectError) that triggered backoff: 28, all recovered (error=0). Backoff therefore fired only for transport errors; the 429/5xx path was never exercised. Cache size about 137 MB (gitignored).
+
+Frame-filter retention (three frame filters only, applied to cached `time` maps; no label computed): 3,803 of 139,726 ok documents (about 2.7%) when "first publish on or before 2022-01-01" is read as a calendar date; 3,801 under the strict instant reading (<= 2022-01-01T00:00:00). The ~4,000 target was not reached; per the budget rule N is not extended. The reading of the first-publish filter must be fixed in features/label code and written down before labels are computed.
+
+Notes for the write-up: the name list is approximate because the registry changes while you read it (4,552,046 names enumerated vs 4,552,052 reported). Hypothesis, NOT tested: the frame filters remove the junk end of npm, which may partly mitigate limitation (c); do not state it as a finding without evidence.
+
+Still unknown: base rate, everything downstream. No labels, features or models exist.
+
 ## Stage: collector (src/collect.py)
 
 Built: `python src/collect.py --n N [--concurrency 8]`. Enumerates all names from `https://replicate.npmjs.com/_all_docs` (unranked), caches them in `data/names.txt` (gitignored), draws a sample as the first N entries of `numpy.random.default_rng(20261031).permutation(len(names))` (so a larger N extends a smaller N's sample), fetches `https://registry.npmjs.org/<name>`, and stores only name, status, full `time` map, version count and scoped flag in `data/cache.db` (gitignored; rebuild by rerunning). Rows with status ok/not_found are never refetched; `error` rows are retried on rerun. Backoff on 429/5xx/transport errors. Log: `results/collect.log` (append-only, includes a failed first attempt caused by my own page-size bug).
