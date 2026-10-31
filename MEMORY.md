@@ -7,6 +7,7 @@
 - The pre-registered abstention rule cannot fire inside the backtest, because the sampling frame already requires at least 5 versions and 2 years of age at cutoff. Abstention counts will therefore be reported from the live lockfile run only, and the write-up must state that the backtest frame excludes abstainable packages by construction.
 - The classification threshold will be chosen by maximising Youden's J on the training split only. This rule was fixed before any model was fitted.
 - Collection N was fixed by a wall-clock budget, not a row target: the sample is every name fetched within 100 minutes of starting the full run, beginning from the existing 20,000. Because the sample is a prefix of a permutation seeded at 20261031, any stopping point is still a uniform random sample. This rule was fixed before any label was computed and before the base rate was known. Target was ~140,000 names at concurrency 24; the actual N is whatever the cache holds at the cutoff.
+- The frame filter "first publish on or before 2022-01-01" is read as a calendar date, so a package first published at any time during 2022-01-01 is retained. Reason: "on or before <date>" includes the whole of that date; the strict-instant reading would mean "before 2022-01-01", which is not what the spec says. This yields 3,803 retained rows versus 3,801 under the instant reading. Decided on textual grounds before any label was computed.
 
 ## Stage: full collection (budget run)
 
