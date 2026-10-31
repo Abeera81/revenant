@@ -5,7 +5,7 @@ model was fitted. It is frozen: the cutoff, the label, the sampling frame, the
 feature list, the evaluation plan and the abstention rule must not be edited
 after any model has been fitted.
 
-Frozen at commit: (this commit)
+Frozen at commit: 4403383 (2026-10-31T09:33:54+05:00)
 
 ## Pre-registered specification
 
