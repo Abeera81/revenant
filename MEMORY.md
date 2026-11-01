@@ -44,3 +44,9 @@ Implementation readings fixed before any model was fitted: a release is any vers
 Verified: pytest 3 passed. Real numbers: 139,726 ok docs -> 3,803 retained rows; dormant 1,503; base rate 0.3952. No NaN in any feature.
 
 Still unknown: all model metrics.
+
+## Stage 3: backtest (2026-11-01)
+
+Built `src/backtest.py`. `python src/backtest.py` fits and prints (log: `results/backtest_run.log`), saving raw scores to `data/backtest_raw.json` (gitignored); `python src/backtest.py --write` writes `results/backtest.json`, `results/backtest.md`, `results/roc.png`, `results/reliability.png`. TabPFN package 9.2.0, default model resolves to v3.5, run on CPU (~12-15 min per condition, 6 TabPFN fits each). Threshold: Youden's J on 5-fold out-of-fold scores within the training split (training split only; OOF chosen so TabPFN's in-context fit doesn't score its own training rows). Bootstrap: 2,000 test-split resamples, seed 20261031; top-decile ties broken at random (only matters for the constant base-rate model).
+
+Real numbers (test n=1141, base rate 0.3953): TabPFN AUC 0.8893 [0.8715, 0.9077], lift 2.244 [2.042, 2.463], Brier 0.1327. LogReg AUC 0.8380 [0.8153, 0.8614], lift 2.200 [2.015, 2.415], Brier 0.1624. Base rate AUC 0.5, Brier 0.2390. Ablation without days_since_last_release: TabPFN AUC 0.8712, Brier 0.1438; LogReg AUC 0.7803, Brier 0.1882. TabPFN did not lose to either comparator. Exploratory, not pre-registered: paired AUC diff TabPFN-LR 0.0514 [0.0365, 0.0666]. Named errors are in results/backtest.md (FP: @types/one-time, hawkui, @types/estree-jsx; FN: @illa-design/space, @illa-design/react, svelte-selecto).

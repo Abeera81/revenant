@@ -1,0 +1,19 @@
+rows 3803  train 2662  test 1141  base rate all 0.3952  train 0.3952  test 0.3953
+[full] tabpfn    AUC 0.8893 CI [0.8715, 0.9077]  lift@10% 2.244 CI [2.042, 2.463]  Brier 0.1327  thr 0.4258  CM {'tn': 542, 'fp': 148, 'fn': 80, 'tp': 371}  (718s)
+[full] logreg    AUC 0.8380 CI [0.8153, 0.8614]  lift@10% 2.200 CI [2.015, 2.415]  Brier 0.1624  thr 0.3017  CM {'tn': 470, 'fp': 220, 'fn': 65, 'tp': 386}  (4s)
+[full] base_rate AUC 0.5000 CI [0.5000, 0.5000]  lift@10% 0.836 CI [0.795, 1.224]  Brier 0.2390  thr 1.0000  CM {'tn': 690, 'fp': 0, 'fn': 451, 'tp': 0}  (4s)
+[no days_since_last_release] tabpfn    AUC 0.8712 CI [0.8523, 0.8907]  lift@10% 2.178 CI [1.989, 2.386]  Brier 0.1438  thr 0.3872  CM {'tn': 522, 'fp': 168, 'fn': 75, 'tp': 376}  (869s)
+[no days_since_last_release] logreg    AUC 0.7803 CI [0.7544, 0.8072]  lift@10% 2.046 CI [1.848, 2.247]  Brier 0.1882  thr 0.3638  CM {'tn': 462, 'fp': 228, 'fn': 107, 'tp': 344}  (4s)
+[no days_since_last_release] base_rate AUC 0.5000 CI [0.5000, 0.5000]  lift@10% 0.836 CI [0.795, 1.224]  Brier 0.2390  thr 1.0000  CM {'tn': 690, 'fp': 0, 'fn': 451, 'tp': 0}  (3s)
+exploratory paired AUC diff tabpfn-logreg 0.0514 CI [0.0365, 0.0666]
+highest-confidence false positives (active in 2024, TabPFN said dormant):
+             name  p_tabpfn  days_since_last_release  releases_12m  releases_24m  median_gap_last_5  gap_trend  total_versions  package_age_days  major_version_count  releases_per_year_lifetime  longest_prior_gap_days  is_scoped
+  @types/one-time  0.878535                40.969673             3             3          73.103263   0.165873               5       1826.299919                    1                    0.999973             1625.607538          1
+           hawkui  0.874006               342.117329             5             5           0.004300   0.001910               6       1390.418720                    2                    1.576144             1048.268853          0
+@types/estree-jsx  0.874002                54.899968             3             5          22.187645   0.055330               7       1536.057670                    2                    1.664488              524.156629          1
+highest-confidence false negatives (went quiet in 2024, TabPFN said active):
+              name  p_tabpfn  days_since_last_release  releases_12m  releases_24m  median_gap_last_5  gap_trend  total_versions  package_age_days  major_version_count  releases_per_year_lifetime  longest_prior_gap_days  is_scoped
+@illa-design/space  0.023223                 6.468914            23            51          28.053657   1.317364              52        762.468946                    2                   24.909867              142.963679          1
+@illa-design/react  0.025542                 6.468925            23            51          27.528802  13.753650              52        762.468933                    2                   24.909867              142.963650          1
+    svelte-selecto  0.038659                28.717917            17            33          11.532723   5.863679              88       1463.886324                    2                   21.956623              126.562914          0
+raw results -> D:\Hackathon\revenant\data\backtest_raw.json

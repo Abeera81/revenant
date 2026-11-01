@@ -1,0 +1,381 @@
+{
+  "n_rows": 3803,
+  "n_train": 2662,
+  "n_test": 1141,
+  "base_rate": {
+    "all": 0.3952143044964502,
+    "train": 0.39519158527422993,
+    "test": 0.39526730937773885
+  },
+  "tabpfn": {
+    "package_version": "9.2.0",
+    "model_version": "v3.5",
+    "device": "cpu"
+  },
+  "split": {
+    "test_size": 0.3,
+    "stratified": true,
+    "random_state": 20261031
+  },
+  "bootstrap_resamples": 2000,
+  "threshold_rule": "max Youden's J on 5-fold out-of-fold scores within the training split",
+  "full": {
+    "tabpfn": {
+      "roc_auc": 0.8893344901828465,
+      "roc_auc_ci95": [
+        0.8714898797886829,
+        0.9077202633651992
+      ],
+      "top_decile_lift": 2.2439410006748286,
+      "top_decile_lift_ci95": [
+        2.0420894566063645,
+        2.4630118837161996
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.13266368210315704,
+      "threshold": 0.42584359645843506,
+      "train_youden_j": 0.573833927685804,
+      "confusion_matrix": {
+        "tn": 542,
+        "fp": 148,
+        "fn": 80,
+        "tp": 371
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.0196798774134781,
+          0.14816525631179714,
+          0.25415887357143874,
+          0.35178408222763163,
+          0.44824120623094066,
+          0.5521351456642151,
+          0.6523698386691865,
+          0.7487076567485929,
+          0.8460748933329441,
+          0.9727398529648781
+        ],
+        "fraction_dormant": [
+          0.029585798816568046,
+          0.1111111111111111,
+          0.2247191011235955,
+          0.40789473684210525,
+          0.4691358024691358,
+          0.55,
+          0.6857142857142857,
+          0.8046875,
+          0.8613861386138614,
+          1.0
+        ]
+      }
+    },
+    "logreg": {
+      "roc_auc": 0.8379639448568399,
+      "roc_auc_ci95": [
+        0.8153043452323352,
+        0.8614144315762022
+      ],
+      "top_decile_lift": 2.1999421575243416,
+      "top_decile_lift_ci95": [
+        2.0146224579079584,
+        2.415315969700114
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.1623803003013723,
+      "threshold": 0.30169142495111556,
+      "train_youden_j": 0.4689133977280779,
+      "confusion_matrix": {
+        "tn": 470,
+        "fp": 220,
+        "fn": 65,
+        "tp": 386
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.0690650869814785,
+          0.1434718844590506,
+          0.24141341700859512,
+          0.34842932928428705,
+          0.45250603932481254,
+          0.5469550172028879,
+          0.6493387295368047,
+          0.7521926858943188,
+          0.8441237339103055,
+          0.9518055091587138
+        ],
+        "fraction_dormant": [
+          0.022900763358778626,
+          0.10408921933085502,
+          0.25,
+          0.4298245614035088,
+          0.5806451612903226,
+          0.6,
+          0.611764705882353,
+          0.8414634146341463,
+          0.8428571428571429,
+          1.0
+        ]
+      }
+    },
+    "base_rate": {
+      "roc_auc": 0.5,
+      "roc_auc_ci95": [
+        0.5,
+        0.5
+      ],
+      "top_decile_lift": 0.8359780198592499,
+      "top_decile_lift_ci95": [
+        0.795486810660339,
+        1.2235472978960988
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.23903106924916154,
+      "threshold": 1.000000001,
+      "train_youden_j": 0.0,
+      "confusion_matrix": {
+        "tn": 690,
+        "fp": 0,
+        "fn": 451,
+        "tp": 0
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.3951915852742329
+        ],
+        "fraction_dormant": [
+          0.39526730937773885
+        ]
+      }
+    }
+  },
+  "ablation_without_days_since_last_release": {
+    "tabpfn": {
+      "roc_auc": 0.871162312413638,
+      "roc_auc_ci95": [
+        0.8522872369491267,
+        0.8907037683954794
+      ],
+      "top_decile_lift": 2.1779427359490984,
+      "top_decile_lift_ci95": [
+        1.9885788449059054,
+        2.3859861844778543
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.14383332431316376,
+      "threshold": 0.38722196221351624,
+      "train_youden_j": 0.5388730132489432,
+      "confusion_matrix": {
+        "tn": 522,
+        "fp": 168,
+        "fn": 75,
+        "tp": 376
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.026227135885468062,
+          0.14999073813451785,
+          0.24925373699150832,
+          0.35035216692581916,
+          0.44937605361143745,
+          0.5496741419746762,
+          0.6517653316259384,
+          0.7472635105124905,
+          0.8342548061589725,
+          0.9697696935562861
+        ],
+        "fraction_dormant": [
+          0.02040816326530612,
+          0.14953271028037382,
+          0.22549019607843138,
+          0.3106796116504854,
+          0.4666666666666667,
+          0.6587301587301587,
+          0.6583333333333333,
+          0.8290598290598291,
+          0.8524590163934426,
+          1.0
+        ]
+      }
+    },
+    "logreg": {
+      "roc_auc": 0.780314277451075,
+      "roc_auc_ci95": [
+        0.7544149794223475,
+        0.8071580001953372
+      ],
+      "top_decile_lift": 2.045946206497638,
+      "top_decile_lift_ci95": [
+        1.848364784749404,
+        2.2468526532013495
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.1882190626703383,
+      "threshold": 0.36375255737712364,
+      "train_youden_j": 0.3863542970502799,
+      "confusion_matrix": {
+        "tn": 462,
+        "fp": 228,
+        "fn": 107,
+        "tp": 344
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.05078364886537211,
+          0.15520645796771643,
+          0.2550443540423966,
+          0.3477852116161448,
+          0.4472486039369353,
+          0.5537377473191306,
+          0.6416598711136019,
+          0.7391586294805058,
+          0.8540161054968427,
+          0.9520134172134885
+        ],
+        "fraction_dormant": [
+          0.01282051282051282,
+          0.12643678160919541,
+          0.19831223628691982,
+          0.32941176470588235,
+          0.5520833333333334,
+          0.6058394160583942,
+          0.7209302325581395,
+          0.7435897435897436,
+          0.9523809523809523,
+          0.8888888888888888
+        ]
+      }
+    },
+    "base_rate": {
+      "roc_auc": 0.5,
+      "roc_auc_ci95": [
+        0.5,
+        0.5
+      ],
+      "top_decile_lift": 0.8359780198592499,
+      "top_decile_lift_ci95": [
+        0.795486810660339,
+        1.2235472978960988
+      ],
+      "bootstrap_resamples_used": 2000,
+      "brier": 0.23903106924916154,
+      "threshold": 1.000000001,
+      "train_youden_j": 0.0,
+      "confusion_matrix": {
+        "tn": 690,
+        "fp": 0,
+        "fn": 451,
+        "tp": 0
+      },
+      "reliability": {
+        "mean_predicted": [
+          0.3951915852742329
+        ],
+        "fraction_dormant": [
+          0.39526730937773885
+        ]
+      }
+    }
+  },
+  "exploratory_not_preregistered": {
+    "paired_auc_diff_tabpfn_minus_logreg": {
+      "point": 0.0513705453260066,
+      "ci95": [
+        0.03652892229508697,
+        0.06663325093278491
+      ]
+    }
+  },
+  "highest_confidence_false_positives": [
+    {
+      "name": "@types/one-time",
+      "p_tabpfn": 0.878535270690918,
+      "days_since_last_release": 40.96967274305445,
+      "releases_12m": 3,
+      "releases_24m": 3,
+      "median_gap_last_5": 73.1032633449082,
+      "gap_trend": 0.1658729512317827,
+      "total_versions": 5,
+      "package_age_days": 1826.299919155094,
+      "major_version_count": 1,
+      "releases_per_year_lifetime": 0.9999726665075269,
+      "longest_prior_gap_days": 1625.6075379282402,
+      "is_scoped": 1
+    },
+    {
+      "name": "hawkui",
+      "p_tabpfn": 0.874005913734436,
+      "days_since_last_release": 342.11732900463045,
+      "releases_12m": 5,
+      "releases_24m": 5,
+      "median_gap_last_5": 0.004299843750066227,
+      "gap_trend": 0.0019100328424610995,
+      "total_versions": 6,
+      "package_age_days": 1390.4187203472218,
+      "major_version_count": 2,
+      "releases_per_year_lifetime": 1.5761439111325604,
+      "longest_prior_gap_days": 1048.2688530787025,
+      "is_scoped": 0
+    },
+    {
+      "name": "@types/estree-jsx",
+      "p_tabpfn": 0.8740020394325256,
+      "days_since_last_release": 54.899968460649255,
+      "releases_12m": 3,
+      "releases_24m": 5,
+      "median_gap_last_5": 22.187644699073775,
+      "gap_trend": 0.05532957892821798,
+      "total_versions": 7,
+      "package_age_days": 1536.057670243057,
+      "major_version_count": 2,
+      "releases_per_year_lifetime": 1.6644882868202695,
+      "longest_prior_gap_days": 524.1566292245383,
+      "is_scoped": 1
+    }
+  ],
+  "highest_confidence_false_negatives": [
+    {
+      "name": "@illa-design/space",
+      "p_tabpfn": 0.023222975432872772,
+      "days_since_last_release": 6.468914444443804,
+      "releases_12m": 23,
+      "releases_24m": 51,
+      "median_gap_last_5": 28.05365748842557,
+      "gap_trend": 1.3173635667050823,
+      "total_versions": 52,
+      "package_age_days": 762.4689463194433,
+      "major_version_count": 2,
+      "releases_per_year_lifetime": 24.90986694170586,
+      "longest_prior_gap_days": 142.96367877314765,
+      "is_scoped": 1
+    },
+    {
+      "name": "@illa-design/react",
+      "p_tabpfn": 0.025542132556438446,
+      "days_since_last_release": 6.468925416665496,
+      "releases_12m": 23,
+      "releases_24m": 51,
+      "median_gap_last_5": 27.528801799768374,
+      "gap_trend": 13.753650080916907,
+      "total_versions": 52,
+      "package_age_days": 762.4689332175917,
+      "major_version_count": 2,
+      "releases_per_year_lifetime": 24.90986736974347,
+      "longest_prior_gap_days": 142.96365049768377,
+      "is_scoped": 1
+    },
+    {
+      "name": "svelte-selecto",
+      "p_tabpfn": 0.03865915164351463,
+      "days_since_last_release": 28.71791690972116,
+      "releases_12m": 17,
+      "releases_24m": 33,
+      "median_gap_last_5": 11.532723049769798,
+      "gap_trend": 5.863679227271391,
+      "total_versions": 88,
+      "package_age_days": 1463.886323553241,
+      "major_version_count": 2,
+      "releases_per_year_lifetime": 21.95662291726507,
+      "longest_prior_gap_days": 126.56291408564758,
+      "is_scoped": 0
+    }
+  ]
+}
