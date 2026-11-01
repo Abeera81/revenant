@@ -32,3 +32,15 @@ Real counts, run with n=20000, concurrency 8: sampled 20000; fetched ok 19962; n
 Frame-filter retention (applying only the three frame filters from PREREGISTRATION.md to the cached `time` maps; label not examined): 570 of 19962 ok documents retained. This is about 2.9%, so ~4,000 retained rows needs roughly 140,000 sampled names, about 3.5-4 hours at the observed rate. NOT yet done: `--n` was set to 20000 for verification only.
 
 Unknown / next: decide final N (and whether to raise concurrency) and run the full collection; then features and labelling. No features, labels or models exist. `examples/demo-lockfile.json` and a `package-lock.json` .gitignore line appeared in the working tree from outside this stage; they are not part of the collector.
+
+## Stage 2: features and labels (2026-11-01)
+
+Note: commits from this stage on are dated 2026-11-01, after the AGENTS.md rule-6 window (2026-10-31). The user was asked and chose to commit with real dates.
+
+Built `src/features.py` (`python src/features.py` -> `data/table.parquet`, gitignored), `src/label.py`, `tests/test_no_leakage.py`. `compute_features(releases, is_scoped, asof)` raises AssertionError if any timestamp is at or after `asof`; the builder filters to `< 2024-01-01` first. The label reads only `[2024-01-01, 2025-01-01)`.
+
+Implementation readings fixed before any model was fitted: a release is any version key in `time` (not created/modified) whose value is a string ISO timestamp (non-string values, seen in 30 spam documents, are skipped); first publish = earliest version timestamp (reproduces 3,803); gaps in days between consecutive sorted releases; median_gap_last_5 = median of the 4 gaps among the last 5 releases; gap_trend = (median last 3 gaps + 1)/(median of up to 3 preceding gaps + 1), +1 day avoids divide-by-zero on same-instant publishes; releases_12m/24m use calendar years back from asof; total_versions counts pre-cutoff version timestamps only (not the current document's version count); major_version_count = distinct leading integers of version strings.
+
+Verified: pytest 3 passed. Real numbers: 139,726 ok docs -> 3,803 retained rows; dormant 1,503; base rate 0.3952. No NaN in any feature.
+
+Still unknown: all model metrics.
