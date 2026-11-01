@@ -8,6 +8,10 @@ A package is labelled **dormant** if it **went quiet**: it published no new vers
 
 All commits were made before the Oct 31, 11:59 PM PDT deadline. They display as Nov 1 because every commit timestamp in this repo carries a +05:00 (Pakistan) offset; subtract 12 hours for Pacific time. For example 2026-11-01T09:47:43+05:00 is 2026-10-31T21:47:43 PDT.
 
+## Usage
+
+`python src/score.py path/to/package-lock.json --explain` (ranked scores with a prod/dev column; `--explain` adds a one-sentence explanation for the top 5 via local Gemma, or the template fallback)
+
 ## Results
 
 Rows 3803 (train 2662, test 1141), stratified 70/30, random_state=20261031.

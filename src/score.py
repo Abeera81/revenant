@@ -29,19 +29,30 @@ MIN_RELEASES = 5
 MIN_AGE_DAYS = 365
 
 
-def lockfile_names(path: Path) -> list[str]:
+def lockfile_scopes(path: Path) -> dict[str, str]:
+    """name -> 'dev' if every lockfile entry for it has "dev": true, else 'prod'.
+
+    Only "dev": true counts as dev-only; npm's devOptional marks packages that
+    are also optional dependencies of production code, so those count as prod.
+    """
     lock = json.loads(path.read_text(encoding="utf-8"))
-    names = set()
+    dev_only: dict[str, bool] = {}
+    def add(name, meta):
+        dev_only[name] = dev_only.get(name, True) and meta.get("dev") is True
     for key, meta in (lock.get("packages") or {}).items():
         if not key or meta.get("link"):
             continue
-        names.add(meta.get("name") or key.rsplit("node_modules/", 1)[-1])
+        add(meta.get("name") or key.rsplit("node_modules/", 1)[-1], meta)
     def walk(deps):  # lockfileVersion 1
         for n, meta in (deps or {}).items():
-            names.add(n)
+            add(n, meta)
             walk(meta.get("dependencies"))
     walk(lock.get("dependencies"))
-    return sorted(names)
+    return {n: "dev" if d else "prod" for n, d in sorted(dev_only.items())}
+
+
+def lockfile_names(path: Path) -> list[str]:
+    return list(lockfile_scopes(path))
 
 
 def fetch(names: list[str], refresh: bool) -> sqlite3.Connection:
@@ -69,9 +80,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("lockfile", type=Path)
     ap.add_argument("--refresh", action="store_true", help="refetch registry documents")
+    ap.add_argument("--explain", action="store_true", help="add a one-sentence explanation for the top 5")
     args = ap.parse_args()
 
-    names = lockfile_names(args.lockfile)
+    scopes = lockfile_scopes(args.lockfile)
+    names = list(scopes)
     db = fetch(names, args.refresh)
     asof = datetime.now(timezone.utc)
     rows, abstained, unavailable = [], [], []
@@ -125,10 +138,19 @@ def main():
             for i, j in enumerate(top)]
         live = live.sort_values("p", ascending=False)
         w = max(len(n) for n in live["name"])
+        live["scope"] = live["name"].map(scopes)
         print(f"SCORED ({len(live)})")
-        print(f"{'package':<{w}}  {'p(dormant)':>10}  largest-contributing feature (value, effect vs training median)")
+        print(f"{'package':<{w}}  {'scope':<5}  {'p(dormant)':>10}  largest-contributing feature (value, effect vs training median)")
         for _, r in live.iterrows():
-            print(f"{r['name']:<{w}}  {r['p']:>10.3f}  {r['driver']}")
+            print(f"{r['name']:<{w}}  {r['scope']:<5}  {r['p']:>10.3f}  {r['driver']}")
+        n_dev = int((live["scope"] == "dev").sum())
+        print(f"Scored packages: {n_dev} dev-only, {len(live) - n_dev} ship to production")
+        if args.explain:
+            from verbalise import verbalise
+            print("\nEXPLANATIONS (top 5)")
+            for _, r in live.head(5).iterrows():
+                sentence, source = verbalise(r["name"], r[FEATURES].to_dict(), float(r["p"]))
+                print(f"  [{'Gemma' if source == 'gemma' else 'template fallback'}] {sentence}")
     else:
         print("SCORED (0)")
 
