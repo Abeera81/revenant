@@ -56,3 +56,9 @@ Real numbers (test n=1141, base rate 0.3953): TabPFN AUC 0.8893 [0.8715, 0.9077]
 Built `src/score.py`: `python src/score.py <package-lock.json> [--refresh]`. Reads names from `packages` (v2/v3) or nested `dependencies` (v1); fetches with the collector's `fetch_one`/backoff into a separate `data/live_cache.db` so live docs never enter the backtest cache; computes the eleven features as of now (same `compute_features`, asof=now); applies the pre-registered abstention rule; fits TabPFN on all 3,803 labelled rows. "Largest-contributing feature" is by occlusion: each feature set to its training median, |p - p_occluded| largest wins, shown with signed effect. This is a local sensitivity, not a causal attribution.
 
 Real run on examples/demo-lockfile.json (2026-11-01 04:38 UTC): 492 unique packages, all fetched; 429 scored, 63 abstained, 0 unavailable. Output saved locally at data/score_demo.txt (gitignored). The demo lockfile itself is not committed.
+
+## Stage 5: Gemma sentence (2026-11-01)
+
+Built `src/verbalise.py`: `verbalise(name, row, p) -> (sentence, source)`. Python formats every value to a string (p to 2 dp, days to integer, age to 1 dp years) into a fixed template; gemma3:4b via local Ollama (temperature 0, seed 20261031) is only asked to reword it and copy numbers exactly. No registry free text is sent; the package name is passed only if it matches an npm-name regex, else "this package". If Ollama is unreachable or the output has any number not in the template, the pure-Python template is returned (source="template"). Not yet wired into score.py.
+
+Verified: `pytest tests` 6 passed (leakage 3, verbalise 3). With Ollama running, the subset test got a Gemma sentence (source=gemma); the fallback test forces an unreachable port.
