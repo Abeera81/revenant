@@ -6,7 +6,7 @@ A package is labelled **dormant** if it **went quiet**: it published no new vers
 
 ## On commit dates
 
-All commits were made before the Oct 31, 11:59 PM PDT deadline. They display as Nov 1 because they carry a +05:00 (Pakistan) offset — the final commit, 88308c3 at 2026-11-01T09:47:43+05:00, is 2026-10-31T21:47:43 Pacific time.
+All commits were made before the Oct 31, 11:59 PM PDT deadline. They display as Nov 1 because every commit timestamp in this repo carries a +05:00 (Pakistan) offset; subtract 12 hours for Pacific time. For example 2026-11-01T09:47:43+05:00 is 2026-10-31T21:47:43 PDT.
 
 ## Results
 
